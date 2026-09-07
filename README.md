@@ -29,7 +29,74 @@ one of them to go manage the others. It breaks in three specific ways:
 NestManager addresses all three, and treats the third one — noticing — as the
 part that actually matters.
 
+## The shape
+
+```
+                          you
+                           ▲
+            results ───────┼─────── objective
+                           ▼
+                 ┌───────────────────┐
+                 │     Executive     │
+                 └─────────┬─────────┘
+             ┌─────────────┴─────────────┐
+             ▼                           ▼
+       ┌───────────┐               ┌───────────┐
+       │  Manager  │               │  Manager  │
+       └─────┬─────┘               └─────┬─────┘
+        ┌────┴────┐                 ┌────┴────┐
+        ▼         ▼                 ▼         ▼
+     ┌─────┐   ┌─────┐           ┌─────┐   ┌─────┐
+     │Staff│   │Staff│           │Staff│   │Staff│
+     └──┬──┘   └──┬──┘           └──┬──┘   └──┬──┘
+        └─ peers ─┘                 └─ peers ─┘
+```
+
+```
+tier 0   Executive   owns the Charter · the only member who talks to you
+tier 1   Manager     splits the work · rules on conflicts · integrates the result
+tier 2   Staff       claims ground · does the work · settles overlaps with peers
+```
+
+Work flows down, reports flow up, and every member reports to exactly one
+supervisor — escalation travels one hop at a time. Peers talk to each other
+directly and only involve a Manager when they cannot agree.
+
+Tiers are positional rather than fixed: a Staff member that hires its own team
+becomes a Manager for that subtree, if the Charter allows the depth.
+
 ## How it works
+
+### One assignment, end to end
+
+```mermaid
+sequenceDiagram
+    autonumber
+    participant M as Manager
+    participant S as Staff session
+    participant N as Nest event log
+    participant H as Stop hook
+
+    M->>S: hire — brief, assignment, model chosen by routing
+    S->>N: claim the files it will edit
+    S->>N: heartbeat before a long step
+
+    alt the model reports
+        S->>N: report done / blocked / failed
+    else it forgets, runs out of context, or dies
+        H->>N: files the report regardless
+    end
+
+    N->>M: lands in the supervisor inbox
+    M->>N: nest status
+
+    opt subordinate needs attention
+        M->>S: nudge, then read its output, then reassign
+    end
+```
+
+The `alt` branch is the whole point: reporting does not depend on the model
+remembering to report.
 
 ### State lives in files, not in context
 
