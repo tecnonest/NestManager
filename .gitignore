@@ -1,0 +1,16 @@
+# NestManager runtime state — machine-specific, never committed
+.nest/
+
+# Node
+node_modules/
+npm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Secrets — never commit
+.env
+.env.*
+!.env.example
+*.token

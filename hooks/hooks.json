@@ -1,0 +1,30 @@
+{
+  "description": "NestManager — mechanically guaranteed reporting and identity for hierarchy members",
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node",
+            "args": ["${CLAUDE_PLUGIN_ROOT}/hooks/stop-report.mjs"],
+            "timeout": 15,
+            "statusMessage": "Filing report to the Nest"
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node",
+            "args": ["${CLAUDE_PLUGIN_ROOT}/hooks/session-start-identity.mjs"],
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
+}

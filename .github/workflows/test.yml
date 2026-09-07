@@ -1,0 +1,45 @@
+name: test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    # Windows is not optional here: subordinate spawning has a separate code
+    # path for cmd.exe argument quoting, and path handling differs enough that
+    # a Linux-only run would miss real breakage.
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        node: [18, 22]
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+
+      - name: Run tests
+        run: node --test
+
+  validate-plugin:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check plugin manifest is valid JSON and complete
+        run: |
+          node -e "
+            const manifest = require('./.claude-plugin/plugin.json');
+            for (const field of ['name', 'description', 'version']) {
+              if (!manifest[field]) throw new Error('plugin.json is missing ' + field);
+            }
+            const hooks = require('./hooks/hooks.json');
+            if (!hooks.hooks?.Stop) throw new Error('the Stop hook is load-bearing and must be registered');
+            console.log('plugin manifest OK');
+          "

@@ -1,0 +1,18 @@
+{
+  "name": "nestmanager",
+  "version": "0.1.0",
+  "description": "Hierarchical multi-session orchestration for Claude Code — Executive, Manager and Staff sessions with guaranteed reporting, stall detection and model-tier routing",
+  "type": "module",
+  "license": "MIT",
+  "author": { "name": "TecnoNest", "email": "manager@tecnonest.com", "url": "https://tecnonest.com" },
+  "repository": { "type": "git", "url": "git+https://github.com/tecnonest/NestManager.git" },
+  "homepage": "https://github.com/tecnonest/NestManager#readme",
+  "bugs": { "url": "https://github.com/tecnonest/NestManager/issues" },
+  "keywords": ["claude", "claude-code", "orchestration", "multi-agent", "agents", "hierarchy", "plugin"],
+  "bin": { "nest": "bin/nest.mjs" },
+  "files": ["bin", "src", "skills", "hooks", "commands", ".claude-plugin", "README.md", "LICENSE"],
+  "scripts": {
+    "test": "node --test"
+  },
+  "engines": { "node": ">=18.0.0" }
+}
