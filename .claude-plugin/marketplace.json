@@ -1,0 +1,25 @@
+{
+  "name": "tecnonest",
+  "description": "Claude Code plugins by TecnoNest",
+  "owner": {
+    "name": "TecnoNest",
+    "email": "manager@tecnonest.com",
+    "url": "https://tecnonest.com"
+  },
+  "plugins": [
+    {
+      "name": "nestmanager",
+      "description": "Hierarchical multi-session orchestration for Claude Code — Executive, Manager and Staff sessions with guaranteed reporting, stall detection and model-tier routing",
+      "version": "0.1.0",
+      "source": "./",
+      "author": {
+        "name": "TecnoNest",
+        "email": "manager@tecnonest.com",
+        "url": "https://tecnonest.com"
+      },
+      "homepage": "https://github.com/tecnonest/NestManager",
+      "license": "MIT",
+      "keywords": ["orchestration", "multi-agent", "hierarchy", "sessions", "delegation"]
+    }
+  ]
+}

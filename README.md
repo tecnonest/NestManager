@@ -188,23 +188,30 @@ owner — recorded and delivered to everyone affected.
 Requires Node 18+ and Claude Code.
 
 ```bash
+claude plugin marketplace add tecnonest/NestManager
+claude plugin install nestmanager@tecnonest
+```
+
+Restart Claude Code afterwards. Installing this way matters: an installed
+plugin is active in **every** session, including the ones the Nest spawns, so
+subordinates inherit the Stop hook and their role skills automatically.
+
+Optionally put the `nest` CLI on your PATH:
+
+```bash
 git clone https://github.com/tecnonest/NestManager.git
 cd NestManager && npm link
 ```
 
-`npm link` puts `nest` on your PATH. It is optional — briefs fall back to an
-absolute `node` invocation — but it makes every command in the docs work as
-written.
+This is optional — role briefs fall back to an absolute `node` invocation — but
+it makes every command in the docs work as written.
 
-Then enable the plugin. **Installing it properly is the path that works**,
-because an installed plugin is active in every session, including the ones the
-Nest spawns.
+### Developing from a clone
 
-Running from a clone with `--plugin-dir` applies to *that session only*, so its
-subordinates start with no hooks and no role skills — they ignore a protocol
-they were never handed, and it fails silently. If you are working from a clone,
-tell the Charter where the plugin lives so it forwards the flag to every
-subordinate:
+`claude --plugin-dir /path/to/NestManager` applies to *that session only*. The
+sessions it spawns start with no hooks and no role skills, so they ignore a
+protocol they were never handed — and it fails silently. Tell the Charter where
+the plugin lives and it forwards the flag to every subordinate:
 
 ```bash
 nest init --objective "..." --plugin-dir /path/to/NestManager
